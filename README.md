@@ -1,18 +1,28 @@
-# PennyPilot — AI-Assisted Personal Expense Tracker
+PennyPilot – AI-Assisted Personal Expense Tracker
 
-A Flask and SQLite portfolio application for recording expenses, viewing spending summaries, and exporting transaction data. It includes a transparent keyword-based category suggestion baseline.
+A personal finance web application built with Python and Flask to record expenses, organize spending, visualize financial activity, and export transaction data.
 
 > **AI transparency:** The initial categorizer uses editable keyword rules. It is not a trained machine-learning model or an external generative-AI service. The project is structured so a model-based classifier can be added later.
 
 ## Features
 
-- Create, read, update, and delete expenses
-- Automatic category suggestions with manual override
-- Dashboard with category and monthly charts
-- CSV export
-- SQLite persistence
-- Input validation and automated tests
-- Responsive HTML/CSS interface
+Add, edit, and delete expenses
+
+Automatic expense category suggestions
+
+Manual category selection
+
+Monthly spending visualization
+
+Category-wise spending dashboard
+
+CSV transaction export
+
+SQLite database persistence
+
+Input validation
+
+Automated testing with pytest
 
 ## Tech stack
 
