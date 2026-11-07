@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Expenses · PennyPilot{% endblock %}
+{% block content %}
+<section class="hero">
+  <div><p class="eyebrow">PERSONAL FINANCE</p><h1>Track your spending.</h1>
+  <p class="muted">A simple place to record and understand everyday expenses.</p></div>
+  <div class="total-card"><span>Total recorded</span><strong>₹{{ "%.2f"|format(total|float) }}</strong></div>
+</section>
+<section class="panel">
+  <h2>Add an expense</h2>
+  <form class="expense-form" action="{{ url_for('create_expense') }}" method="post">
+    <label>Description<input name="title" maxlength="100" placeholder="e.g. Lunch at cafe" required></label>
+    <label>Amount (₹)<input name="amount" type="number" min="0.01" step="0.01" placeholder="250.00" required></label>
+    <label>Category
+      <select name="category">
+        <option value="">Suggest automatically</option>
+        {% for category in ["Food","Transport","Shopping","Bills","Health","Entertainment","Education","Other"] %}
+        <option>{{ category }}</option>{% endfor %}
+      </select>
+    </label>
+    <label>Date<input name="expense_date" type="date" required></label>
+    <label class="wide">Notes<input name="notes" maxlength="250" placeholder="Optional note"></label>
+    <button class="button" type="submit">Add expense</button>
+  </form>
+  <p class="hint">Automatic category suggestions use transparent keyword matching. You can choose a category yourself.</p>
+</section>
+<section class="panel">
+  <div class="section-heading"><h2>Recent expenses</h2><a href="{{ url_for('dashboard') }}">View dashboard →</a></div>
+  {% if expenses %}
+  <div class="table-wrap"><table>
+    <thead><tr><th>Description</th><th>Category</th><th>Date</th><th>Amount</th><th>Actions</th></tr></thead>
+    <tbody>
+    {% for expense in expenses %}
+      <tr>
+        <td><strong>{{ expense.title }}</strong>{% if expense.notes %}<small>{{ expense.notes }}</small>{% endif %}</td>
+        <td><span class="pill">{{ expense.category }}</span></td>
+        <td>{{ expense.expense_date }}</td>
+        <td class="amount">₹{{ "%.2f"|format(expense.amount|float) }}</td>
+        <td class="actions">
+          <a href="{{ url_for('edit_expense', expense_id=expense.id) }}">Edit</a>
+          <form action="{{ url_for('remove_expense', expense_id=expense.id) }}" method="post" onsubmit="return confirm('Delete this expense?')">
+            <button class="link-button danger" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table></div>
+  {% else %}
+    <div class="empty"><h3>No expenses yet</h3><p>Add your first expense using the form above.</p></div>
+  {% endif %}
+</section>
+{% endblock %}
